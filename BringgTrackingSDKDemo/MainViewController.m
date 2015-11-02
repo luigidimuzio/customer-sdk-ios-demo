@@ -14,7 +14,7 @@
 #import "GGOrderBuilder.h"
 #import "GGRealTimeMontior.h"
 
-#define kBringgDeveloperToken @"YOUR_DEVELOPER_TOKEN_HERE"
+#define kBringgDeveloperToken @"cocacola"
 
 
 @interface MainViewController ()
@@ -106,12 +106,12 @@
     // the order before doing the actual monitoring
     if ([self.httpManager isSignedIn]) {
         // get the order object and start monitoring it
-        [self.httpManager getOrderByID:orderid.integerValue withCompletionHandler:^(BOOL success, GGOrder *order, NSError *error) {
+        [self.httpManager getOrderByID:orderid.integerValue extras:nil withCompletionHandler:^(BOOL success, NSDictionary * _Nullable response, GGOrder * _Nullable order, NSError * _Nullable error) {
             //
             if (success && order) {
                 
                 [self trackOrder:order];
-
+                
             }else{
                 if (error) {
                     UIAlertView  *alertView = [[UIAlertView alloc] initWithTitle:@"General Service Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -119,7 +119,6 @@
                     [alertView show];
                 }
             }
-            
         }];
         
     }else{
@@ -176,62 +175,62 @@
 - (IBAction)signin:(id)sender {
     //signin to get customer token
     
-   
+   [self.httpManager signInWithName:self.customerNameField.text
+                              phone:self.customerPhoneField.text
+                              email:nil
+                           password:nil
+                   confirmationCode:self.customerCodeField.text
+                         merchantId:self.customerMerchantField.text
+                             extras:nil
+                  completionHandler:^(BOOL success, NSDictionary * _Nullable response, GGCustomer * _Nullable customer, NSError * _Nullable error) {
+       //
+       UIAlertView *alertView;
+       
+       if (customer) {
+           
+           alertView = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"%@ Signed in", customer.name] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+           
+           [alertView show];
+           
+           if (!self.trackerManager) {
+               // once we have a customer token we can activate the tracking manager
+               [GGTrackerManager trackerWithCustomerToken:customer.customerToken
+                                        andDeveloperToken:kBringgDeveloperToken
+                                              andDelegate:self];
+               // then we can access the tracker singelton via his conveninence initialiser
+               self.trackerManager = [GGTrackerManager tracker];
+               
+           }
+           
+           self.customerTokenField.text = customer.customerToken;
+           
+           // set the customer in the tracker manager
+           [self.trackerManager setCustomer:customer];
+           
+           
+           
+       }else if (error){
+           alertView = [[UIAlertView alloc] initWithTitle:@"Sign in Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+           
+           [alertView show];
+       }
+   }];
     
-    [self.httpManager signInWithName:self.customerNameField.text
-                            phone:self.customerPhoneField.text
-                confirmationCode:self.customerCodeField.text
-                      merchantId:self.customerMerchantField.text
-                              extras:nil
-
-     completionHandler:^(BOOL success, GGCustomer *customer, NSError *error) {
-         //
-         UIAlertView *alertView;
-         
-         if (customer) {
-             
-             alertView = [[UIAlertView alloc] initWithTitle:nil message:[NSString stringWithFormat:@"%@ Signed in", customer.name] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-             
-             [alertView show];
-             
-             if (!self.trackerManager) {
-                 // once we have a customer token we can activate the tracking manager
-                 [GGTrackerManager trackerWithCustomerToken:customer.customerToken
-                                          andDeveloperToken:kBringgDeveloperToken
-                                                andDelegate:self];
-                 // then we can access the tracker singelton via his conveninence initialiser
-                 self.trackerManager = [GGTrackerManager tracker];
-
-             }
-             
-             self.customerTokenField.text = customer.customerToken;
-             
-             // set the customer in the tracker manager
-             [self.trackerManager setCustomer:customer];
-             
-             
-             
-         }else if (error){
-            alertView = [[UIAlertView alloc] initWithTitle:@"Sign in Error" message:error.localizedDescription delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-             
-             [alertView show];
-         }
-     }];
 }
 
 - (IBAction)rate:(id)sender {
     
     // first we should gate the shared location object - only then can we rate
-    [self.httpManager getSharedLocationByUUID:self.shareUUIDField.text withCompletionHandler:^(BOOL success, GGSharedLocation *sharedLocation, NSError *error) {
-        //
-        
+    [self.httpManager getSharedLocationByUUID:self.shareUUIDField.text extras:nil withCompletionHandler:^(BOOL success, NSDictionary * _Nullable response, GGSharedLocation * _Nullable sharedLocation, NSError * _Nullable error) {
         if (success && sharedLocation) {
-           
             
-            [self.httpManager rate:[self.customerRatingField.text intValue]
+            
+           [ self.httpManager rate:[self.customerRatingField.text intValue]
                          withToken:sharedLocation.rating.token
-                         ratingURL:self.ratingURLField.text withCompletionHandler:^(BOOL success, GGRating *rating, NSError *error) {
-                //
+                         ratingURL:self.ratingURLField.text
+                            extras:nil
+             withCompletionHandler:^(BOOL success, NSDictionary * _Nullable response, GGRating * _Nullable rating, NSError * _Nullable error) {
+                 
                 UIAlertView *alertView;
                 if (rating && rating.ratingMessage) {
                     alertView = [[UIAlertView alloc] initWithTitle:nil message:rating.ratingMessage delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil];
@@ -245,8 +244,9 @@
                 
                 
                 NSLog(@"%@, error %@", success ? @"success" : @"failed", error);
-                
-            }];
+           }];
+            
+            
         }
     }];
     
