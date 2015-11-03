@@ -26,7 +26,29 @@
 @property (nonatomic, strong) NSMutableDictionary *monitoredDrivers;
 @end
 
+
+
 @implementation MainViewController
+
+
+static const NSString *CLIENT = @"CLIENT";
+
+static const NSString *CLIENT_VALUE = @"CC iOS";
+static const NSString *CLIENT_VERSION = @"CLIENT-VERSION";
+static const NSString *CLIENT_MODEL = @"CLIENT-MODEL";
+static const NSString *USER_AGENT = @"User-Agent";
+static const NSString *USER_AGENT_VALUE = @"CC/%@ (iOS)";
+
+
+
+-(NSDictionary *)getAuthenticationsHeaders {
+    
+    NSString *version = [[NSBundle mainBundle ] infoDictionary][@"CFBundleShortVersionString"];
+    
+    return @{CLIENT : CLIENT_VALUE, CLIENT_VERSION: version, USER_AGENT: [NSString stringWithFormat:@"CC/%@ (iOS)", version]};
+    
+}
+
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
@@ -34,7 +56,8 @@
         // at first we should just init the http client manager
         [GGHTTPClientManager managerWithDeveloperToken:kBringgDeveloperToken];
         self.httpManager = [GGHTTPClientManager manager];
- 
+        [self.httpManager useSecuredConnection:YES];
+        [self.httpManager setCustomAuthenticationHeaders:[self getAuthenticationsHeaders]];
         // init the tracker without the customer token
         self.trackerManager = [GGTrackerManager tracker];
         [self.trackerManager setDeveloperToken:kBringgDeveloperToken];
@@ -175,13 +198,15 @@
 - (IBAction)signin:(id)sender {
     //signin to get customer token
     
+    NSDictionary *extras = @{@"app_token":kBringgDeveloperToken, @"developer_access_token":[NSNull null]};
+    
    [self.httpManager signInWithName:self.customerNameField.text
                               phone:self.customerPhoneField.text
                               email:nil
                            password:nil
                    confirmationCode:self.customerCodeField.text
                          merchantId:self.customerMerchantField.text
-                             extras:nil
+                             extras:extras
                   completionHandler:^(BOOL success, NSDictionary * _Nullable response, GGCustomer * _Nullable customer, NSError * _Nullable error) {
        //
        UIAlertView *alertView;
