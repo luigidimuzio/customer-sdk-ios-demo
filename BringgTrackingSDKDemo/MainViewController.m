@@ -26,6 +26,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super initWithCoder:aDecoder]) {
     
+        
         // at first we should just init the http client manager
         [GGHTTPClientManager managerWithDeveloperToken:kBringgDeveloperToken];
         self.httpManager = [GGHTTPClientManager manager];
