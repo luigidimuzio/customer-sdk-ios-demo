@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <BringgTracking/BringgTracking.h>
 #import "AFNetworking.h"
-#import "BringgTrackingSDKDemo-Swift.h"
+//#import <BringgTrackingSDKDemo/BringgTrackingSDKDemo-Swift.h>
 
 
 @interface MainViewController : UIViewController <RealTimeDelegate, OrderDelegate, DriverDelegate, WaypointDelegate>
