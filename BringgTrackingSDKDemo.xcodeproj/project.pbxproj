@@ -14,6 +14,7 @@
 		A913A4971A41CFF90002AE32 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A913A4961A41CFF90002AE32 /* Images.xcassets */; };
 		A913A49A1A41CFF90002AE32 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A913A4981A41CFF90002AE32 /* LaunchScreen.xib */; };
 		A913A4A61A41CFF90002AE32 /* BringgTrackingSDKDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A913A4A51A41CFF90002AE32 /* BringgTrackingSDKDemoTests.m */; };
+		A94C8A321DA534D40009C930 /* SwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94C8A311DA534D40009C930 /* SwiftViewController.swift */; };
 		A99163F51A5165A5008BADCD /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A99163F41A5165A5008BADCD /* SystemConfiguration.framework */; };
 		A9A2F7101AADB0F1003038E8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A2F70F1AADB0F1003038E8 /* MobileCoreServices.framework */; };
 		A9E71BBC1A4304A3000BA846 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A9A94B8A1A42F295006C5A58 /* libicucore.dylib */; };
@@ -66,6 +67,7 @@
 		A913A49F1A41CFF90002AE32 /* BringgTrackingSDKDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BringgTrackingSDKDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A913A4A41A41CFF90002AE32 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A913A4A51A41CFF90002AE32 /* BringgTrackingSDKDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BringgTrackingSDKDemoTests.m; sourceTree = "<group>"; };
+		A94C8A311DA534D40009C930 /* SwiftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftViewController.swift; sourceTree = "<group>"; };
 		A99163F41A5165A5008BADCD /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A9A2F70F1AADB0F1003038E8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		A9A94B841A42F272006C5A58 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -135,6 +137,7 @@
 				A913A48E1A41CFF90002AE32 /* AppDelegate.m */,
 				A913A4901A41CFF90002AE32 /* MainViewController.h */,
 				A913A4911A41CFF90002AE32 /* MainViewController.m */,
+				A94C8A311DA534D40009C930 /* SwiftViewController.swift */,
 				A913A4931A41CFF90002AE32 /* Main.storyboard */,
 				A913A4961A41CFF90002AE32 /* Images.xcassets */,
 				A913A4981A41CFF90002AE32 /* LaunchScreen.xib */,
@@ -234,6 +237,7 @@
 		A913A47E1A41CFF80002AE32 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Matan Poreh";
 				TargetAttributes = {
@@ -339,6 +343,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A94C8A321DA534D40009C930 /* SwiftViewController.swift in Sources */,
 				A913A4921A41CFF90002AE32 /* MainViewController.m in Sources */,
 				A913A48F1A41CFF90002AE32 /* AppDelegate.m in Sources */,
 				A913A48C1A41CFF90002AE32 /* main.m in Sources */,
@@ -466,6 +471,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
@@ -486,6 +492,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.bringg.customersdkdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -497,6 +504,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = YES;
